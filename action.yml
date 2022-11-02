@@ -109,6 +109,11 @@ inputs:
     description: 'Path to the conventional changelog config file. If set, the preset setting will be ignored'
     required: false
 
+  include-merge-commits:
+    description: 'If true, merge commits with tags will be included to the releases list'
+    default: 'true'
+    required: false
+
   pre-changelog-generation:
     description: 'Path to the pre-changelog-generation script file'
     required: false
