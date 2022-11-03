@@ -32,7 +32,7 @@ async function run() {
     const gitPush = core.getBooleanInput('git-push')
     const gitBranch = core.getInput('git-branch').replace('refs/heads/', '')
     const tagPrefix = core.getInput('tag-prefix')
-    const preset = core.getInput('preset')
+    let preset = !core.getInput('config-file-path') ? core.getInput('preset') : ''
     const preCommitFile = core.getInput('pre-commit')
     const outputFile = core.getInput('output-file')
     const releaseCount = core.getInput('release-count')
@@ -43,6 +43,7 @@ async function run() {
     const skipCommit = core.getBooleanInput('skip-commit')
     const skipEmptyRelease = core.getBooleanInput('skip-on-empty')
     const conventionalConfigFile = core.getInput('config-file-path')
+    const includeMergeCommits = core.getBooleanInput('include-merge-commits')
     const preChangelogGenerationFile = core.getInput('pre-changelog-generation')
     const gitUrl = core.getInput('git-url')
     const gitPath = core.getInput('git-path')
@@ -85,9 +86,16 @@ async function run() {
     }
 
     let config = conventionalConfigFile && requireScript(conventionalConfigFile)
-    if (config) {
-      config = _.merge(await conventionalChangelogPresetLoader(preset), config)
+    config = config ? config : Object.assign(await conventionalChangelogPresetLoader(preset))
+    preset = ''
+    if (includeMergeCommits) {
+      config = _.merge(config, {
+        gitRawCommitsOpts: {
+          merges: null
+        }
+      })
     }
+
     conventionalRecommendedBump({ preset, tagPrefix, config, skipUnstable: !prerelease }, async (error, recommendation) => {
       if (error) {
         core.setFailed(error.message)
