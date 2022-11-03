@@ -1,3 +1,30 @@
+# [3.17.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.16.0...v3.17.0) (2022-11-02)
+
+
+### Features
+
+* Add pre-release support ([14cc315](https://github.com/TriPSs/conventional-changelog-action/commit/14cc315abe788497f54c3eb3c734963ffbf6cc3e))
+
+
+
+# [3.16.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.15.0...v3.16.0) (2022-11-01)
+
+
+### Features
+
+* Update action to node 16 ([08c1b12](https://github.com/TriPSs/conventional-changelog-action/commit/08c1b1237bb2dbed93fa7ecba9c334f094cb6b0b))
+
+
+
+# [3.15.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.14.1...v3.15.0) (2022-09-20)
+
+
+### Features
+
+* Add `git-path` option ([96b4f2c](https://github.com/TriPSs/conventional-changelog-action/commit/96b4f2ca996f2193165c87e184b8a765102c814c)), closes [#178](https://github.com/TriPSs/conventional-changelog-action/issues/178)
+
+
+
 ## [3.14.1](https://github.com/TriPSs/conventional-changelog-action/compare/v3.14.0...v3.14.1) (2022-08-31)
 
 
@@ -18,38 +45,6 @@
 ### Features
 
 * add  option to customize the pushed branch ([2a7cc0e](https://github.com/TriPSs/conventional-changelog-action/commit/2a7cc0e9fbcbe6b93a27411f1e194c331dc98a6b))
-
-
-
-# [3.13.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.12.0...v3.13.0) (2022-05-27)
-
-
-### Bug Fixes
-
-* Use `getBooleanInput` for boolean values ([ae32d56](https://github.com/TriPSs/conventional-changelog-action/commit/ae32d567b6902c5fd23868ef5717c1d5127fe06a)), closes [#161](https://github.com/TriPSs/conventional-changelog-action/issues/161)
-
-
-### Features
-
-* Added `create-summary` option that adds the changelog as Action summary ([38e51f4](https://github.com/TriPSs/conventional-changelog-action/commit/38e51f47d7298945df398f8d89bf474ff1198df3))
-
-
-
-# [3.12.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.11.0...v3.12.0) (2022-05-26)
-
-
-### Features
-
-* add [skip ci] by default to commit message ([a0bcde8](https://github.com/TriPSs/conventional-changelog-action/commit/a0bcde8dcf6c731817d1142609d778fd4367ae05))
-
-
-
-# [3.11.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.10.0...v3.11.0) (2022-03-14)
-
-
-### Features
-
-* use default GitHub token as default token ([d1907da](https://github.com/TriPSs/conventional-changelog-action/commit/d1907daae2d8e03d0a63daec2099349817a4a1fc))
 
 
 

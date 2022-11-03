@@ -2,7 +2,6 @@ const core = require('@actions/core')
 const conventionalRecommendedBump = require('conventional-recommended-bump')
 const conventionalChangelogPresetLoader = require('conventional-changelog-preset-loader')
 const path = require('path')
-const lodash = require('lodash')
 const getVersioning = require('./version')
 const git = require('./helpers/git')
 const changelog = require('./helpers/generateChangelog')
@@ -46,8 +45,10 @@ async function run() {
     const conventionalConfigFile = core.getInput('config-file-path')
     const preChangelogGenerationFile = core.getInput('pre-changelog-generation')
     const gitUrl = core.getInput('git-url')
+    const gitPath = core.getInput('git-path')
     const skipCi = core.getBooleanInput('skip-ci')
     const createSummary = core.getBooleanInput('create-summary')
+    const prerelease = core.getBooleanInput('pre-release')
 
     if (skipCi) {
       gitCommitMessage += ' [skip ci]'
@@ -65,6 +66,7 @@ async function run() {
     core.info(`Using "${conventionalConfigFile}" as config file`)
     core.info(`Using "${gitUrl}" as gitUrl`)
     core.info(`Using "${gitBranch}" as gitBranch`)
+    core.info(`Using "${gitPath}" as gitPath`)
 
     if (preCommitFile) {
       core.info(`Using "${preCommitFile}" as pre-commit script`)
@@ -86,7 +88,7 @@ async function run() {
     if (config) {
       config = _.merge(await conventionalChangelogPresetLoader(preset), config)
     }
-    conventionalRecommendedBump({ preset, tagPrefix, config }, async (error, recommendation) => {
+    conventionalRecommendedBump({ preset, tagPrefix, config, skipUnstable: !prerelease }, async (error, recommendation) => {
       if (error) {
         core.setFailed(error.message)
         return
@@ -148,7 +150,7 @@ async function run() {
       }
 
       // Generate the string changelog
-      const stringChangelog = await changelog.generateStringChangelog(tagPrefix, preset, newVersion, 1, config)
+      const stringChangelog = await changelog.generateStringChangelog(tagPrefix, preset, newVersion, 1, config, gitPath, !prerelease)
       core.info('Changelog generated')
       core.info(stringChangelog)
 
@@ -166,7 +168,7 @@ async function run() {
       // If output file === 'false' we don't write it to file
       if (outputFile !== 'false') {
         // Generate the changelog
-        await changelog.generateFileChangelog(tagPrefix, preset, newVersion, outputFile, releaseCount, config)
+        await changelog.generateFileChangelog(tagPrefix, preset, newVersion, outputFile, releaseCount, config, gitPath)
       }
 
       if (!skipCommit) {
