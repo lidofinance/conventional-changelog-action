@@ -1,11 +1,13 @@
 const core = require('@actions/core')
 const conventionalRecommendedBump = require('conventional-recommended-bump')
+const conventionalChangelogPresetLoader = require('conventional-changelog-preset-loader')
 const path = require('path')
-
+const lodash = require('lodash')
 const getVersioning = require('./version')
 const git = require('./helpers/git')
 const changelog = require('./helpers/generateChangelog')
 const requireScript = require('./helpers/requireScript')
+const _ = require("lodash");
 
 async function handleVersioningByExtension(ext, file, versionPath, releaseType) {
   const versioning = getVersioning(ext)
@@ -31,7 +33,7 @@ async function run() {
     const gitPush = core.getBooleanInput('git-push')
     const gitBranch = core.getInput('git-branch').replace('refs/heads/', '')
     const tagPrefix = core.getInput('tag-prefix')
-    const preset = !core.getInput('config-file-path') ? core.getInput('preset') : ''
+    const preset = core.getInput('preset')
     const preCommitFile = core.getInput('pre-commit')
     const outputFile = core.getInput('output-file')
     const releaseCount = core.getInput('release-count')
@@ -80,8 +82,10 @@ async function run() {
       await git.pull()
     }
 
-    const config = conventionalConfigFile && requireScript(conventionalConfigFile)
-
+    let config = conventionalConfigFile && requireScript(conventionalConfigFile)
+    if (config) {
+      config = _.merge(await conventionalChangelogPresetLoader(preset), config)
+    }
     conventionalRecommendedBump({ preset, tagPrefix, config }, async (error, recommendation) => {
       if (error) {
         core.setFailed(error.message)
