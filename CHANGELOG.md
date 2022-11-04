@@ -1,4 +1,4 @@
-# [3.18.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.11.0...v3.18.0) (2022-11-03)
+# [3.19.0](https://github.com/TriPSs/conventional-changelog-action/compare/v3.11.0...v3.19.0) (2022-11-04)
 
 
 ### Bug Fixes
